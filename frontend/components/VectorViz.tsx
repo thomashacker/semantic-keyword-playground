@@ -205,7 +205,7 @@ export function VectorViz({ query, collection, limit = 5 }: Props) {
     ro.observe(container);
 
     // --- Animate ---
-    let animId: number;
+    let animId = 0;
     const animate = () => {
       animId = requestAnimationFrame(animate);
       qMesh.rotation.y += 0.012;
