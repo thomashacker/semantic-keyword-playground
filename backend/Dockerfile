@@ -12,10 +12,8 @@ COPY uv.lock* .
 # Install dependencies (no dev deps in production)
 RUN uv sync --no-dev --frozen 2>/dev/null || uv sync --no-dev
 
-# Copy application code and data
+# Copy application code only (data/ and scripts/ are for local seeding only)
 COPY app/ app/
-COPY data/ data/
-COPY scripts/ scripts/
 
 # Expose port
 EXPOSE 8000
