@@ -1,0 +1,10 @@
+.claude
+.pytest_cache
+__pycache__
+.venv
+.env
+DIARY.md
+scope.md
+requirements.md
+data
+settings.json

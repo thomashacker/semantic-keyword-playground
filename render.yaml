@@ -1,0 +1,35 @@
+services:
+  # ── Backend (FastAPI) ────────────────────────────────────────────────────
+  - type: web
+    name: skp-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter
+    envVars:
+      - key: WEAVIATE_URL
+        sync: false           # set manually in Render dashboard
+      - key: WEAVIATE_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        # update this once you know the frontend URL, e.g.:
+        # https://skp-app.onrender.com
+        value: https://skp-app.onrender.com
+
+  # ── Frontend (Next.js) ───────────────────────────────────────────────────
+  - type: web
+    name: skp-app
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: starter
+    envVars:
+      # Render passes env vars as Docker build args automatically,
+      # so NEXT_PUBLIC_BACKEND_URL is baked into the Next.js bundle at build time.
+      - key: NEXT_PUBLIC_BACKEND_URL
+        fromService:
+          type: web
+          name: skp-api
+          envVarKey: RENDER_EXTERNAL_URL
